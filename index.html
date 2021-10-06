@@ -204,37 +204,55 @@
 
     const cursor = document.querySelector(".cursor");
 
-    document.addEventListener("mousemove", (e) => {
-      cursor.setAttribute(
-        "style",
-        "top: " + (e.pageY - 10) + "px; left: " + (e.pageX - 10) + "px;"
-      );
+    let mouseX = 0;
+    let mouseY = 0;
+
+    let ballX = 0;
+    let ballY = 0;
+
+    function animate() {
+      let distX = mouseX - ballX;
+      let distY = mouseY - ballY;
+
+      ballX = ballX + distX;
+      ballY = ballY + distY;
+
+      cursor.style.left = ballX + "px";
+      cursor.style.top = ballY + "px";
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    document.addEventListener("mousemove", (event) => {
+      mouseX = event.pageX;
+      mouseY = event.pageY;
     });
 
-    var projects = document.querySelectorAll(".mouse-change");
+    const projects = document.querySelectorAll(".mouse-change");
 
-    projects.forEach(function (project) {
-      project.addEventListener("mouseover", function hover() {
+    projects.forEach((project) => {
+      project.addEventListener("mouseover", () => {
         cursor.classList.add("bigger");
       });
 
-      project.addEventListener("mouseleave", function leave() {
+      project.addEventListener("mouseleave", () => {
         cursor.classList.remove("bigger");
       });
     });
 
     const btn = document.querySelector(".btn-contact-me");
 
-    btn.addEventListener("mouseover", function hover() {
+    btn.addEventListener("mouseover", () => {
       cursor.classList.add("clickable");
     });
 
-    btn.addEventListener("mouseleave", function leave() {
+    btn.addEventListener("mouseleave", () => {
       cursor.classList.remove("clickable");
     });
 
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", function (e) {
+      anchor.addEventListener("click", (e) => {
         e.preventDefault();
         document.querySelector(this.getAttribute("href")).scrollIntoView({
           behavior: "smooth",
